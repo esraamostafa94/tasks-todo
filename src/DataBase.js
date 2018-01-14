@@ -2,19 +2,17 @@ import axios from 'axios';
 
 class DataBase {
   // get all tasks
-  fetchTasks()
-  {
+  static fetchTasks() {
     return axios.get('http://localhost:3001/tasks');
   }
 
   // get all collections
-  fetchCollections()
-  {
+  static fetchCollections() {
     return axios.get('http://localhost:3001/collections');
   }
 
   // insert new task in DB
-  AddNewTask(item, done, collectionId) {
+  static AddNewTask(item, done, collectionId) {
     return axios.post(
       'http://localhost:3001/tasks',
       {
@@ -25,7 +23,7 @@ class DataBase {
     );
   }
   // insert new collection in DB
-  AddNewCollection(collection) {
+  static AddNewCollection(collection) {
     return axios.post(
       'http://localhost:3001/collections',
       {
@@ -35,7 +33,7 @@ class DataBase {
   }
 
   // update completed
-  updatedone(id, done) {
+  static updatedone(id, done) {
     const url = `http://localhost:3001/tasks/${String(id)}`;
     axios.patch(
       url,
@@ -49,9 +47,9 @@ class DataBase {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 
-  deleteTask(id) {
+  static deleteTask(id) {
     const url = `http://localhost:3001/tasks/${String(id)}`;
     axios.delete(url)
       .then((response) => {
@@ -61,9 +59,9 @@ class DataBase {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 
-  UpdateTask(id, taskTitle) {
+  static UpdateTask(id, taskTitle) {
     const url = `http://localhost:3001/tasks/${String(id)}`;
     axios.patch(
       url,
@@ -77,7 +75,7 @@ class DataBase {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 }
 
 export default DataBase;

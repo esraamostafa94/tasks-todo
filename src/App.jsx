@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Dropdown, List } from 'semantic-ui-react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { List } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 // import {browserHistory} from 'react-router';
 
-import axios from 'axios';
 import styled from 'styled-components';
 import Header from './Header';
 import AddTask from './AddTask';
-import SelectCollection from './SelectCollection'
-import DataBase from './DataBase'
+import SelectCollection from './SelectCollection';
+import DB from './DataBase';
 import './App.css';
+import TasksList from './TasksList';
 
 const DivApp = styled.div`
   margin: 0 auto;
@@ -22,8 +22,6 @@ const DivHeader = styled.div`
   color: white;
   margin: 0 auto;
 `;
-
-const DB = new DataBase();
 
 class App extends Component {
   constructor(props) {
@@ -72,7 +70,8 @@ class App extends Component {
           to: item.name,
         };
         items.push(collec);
-      });Input, Button, Checkbox
+      });
+
       console.log('Collection_List');
       // console.log(this.state.Collection_List);
       console.log(items);
@@ -299,9 +298,14 @@ class App extends Component {
             collectionList={this.state.Collection_List}
             viewCollection={this.viewCollection}
           />
-          <List divided relaxed>
-            {list}
-          </List>
+          <TasksList
+            todoList={this.state.TODO_List}
+            Collection_List={this.state.Collection_List}
+            editTaskId={this.state.editTaskId}
+            editInput={this.state.editInput}
+            hide={this.state.hide}
+            collection={this.state.collection}
+          />
           <AddTask
             collection={this.state.collection}
             onClick={() => this.handleClick()}

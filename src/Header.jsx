@@ -2,11 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Input, Button, Checkbox } from 'semantic-ui-react';
 
-import Task from './Task';
-import EditTask from './EditTask';
-
-
-
 const Topic = styled.h1`
 text-align: center;
 `;
