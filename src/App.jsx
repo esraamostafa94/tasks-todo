@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { List } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 // import {browserHistory} from 'react-router';
 
@@ -298,14 +297,22 @@ class App extends Component {
             collectionList={this.state.Collection_List}
             viewCollection={this.viewCollection}
           />
-          <TasksList
-            todoList={this.state.TODO_List}
-            Collection_List={this.state.Collection_List}
-            editTaskId={this.state.editTaskId}
-            editInput={this.state.editInput}
-            hide={this.state.hide}
-            collection={this.state.collection}
+
+          <Route
+            path="/:collectionId"
+            render={routeProps => (
+              <TasksList
+                {...routeProps}
+                todoList={this.state.TODO_List}
+                Collection_List={this.state.Collection_List}
+                editTaskId={this.state.editTaskId}
+                editInput={this.state.editInput}
+                hide={this.state.hide}
+                collection={this.state.collection}
+              />
+            )}
           />
+
           <AddTask
             collection={this.state.collection}
             onClick={() => this.handleClick()}

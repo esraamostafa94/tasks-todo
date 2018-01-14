@@ -32,7 +32,7 @@ const TasksList = (props) => {
         value={item}
         hide={props.hide}
         onClick={() => this.taskdone(index)}
-        collection={props.collection}
+        collection={Number(props.match.params.collectionId)}
         collectionName={colName}
         deleteTask={() => this.deletetask(index)}
         handleEdit={(id, title) => this.handleEdit(id, title)}
