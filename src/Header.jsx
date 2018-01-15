@@ -10,8 +10,8 @@ const HeaderSwitch = styled.div`
   text-align: right;
 `;
 
-const Header = (props) => {
-  return (
+const Header = props =>
+  (
     <div>
       <Topic>{props.value}</Topic>
 
@@ -32,6 +32,6 @@ const Header = (props) => {
       </div>
     </div>
   );
-};
+
 
 export default Header;

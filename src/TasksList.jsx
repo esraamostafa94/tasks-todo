@@ -18,9 +18,9 @@ const TasksList = (props) => {
       return (
         <EditTask
           key={item.id}
-          editTask={() => this.saveEditTask(index)}
-          cancelEditTask={() => this.cancelEditTask()}
-          changeText={this.changeTaskEdit}
+          editTask={() => props.saveEditTask(index)}
+          cancelEditTask={() => props.cancelEditTask()}
+          changeText={props.changeTaskEdit}
           editInput={props.editInput}
         />
       );
@@ -31,11 +31,13 @@ const TasksList = (props) => {
         key={item.id}
         value={item}
         hide={props.hide}
-        onClick={() => this.taskdone(index)}
-        collection={Number(props.match.params.collectionId)}
+        onClick={() => props.taskdone(index)}
+        collection={
+          Number(props.match.params.collectionId) ? Number(props.match.params.collectionId) : 0
+        }
         collectionName={colName}
-        deleteTask={() => this.deletetask(index)}
-        handleEdit={(id, title) => this.handleEdit(id, title)}
+        deleteTask={() => props.deletetask(index)}
+        handleEdit={(id, title) => props.handleEdit(id, title)}
       />
     );
   });

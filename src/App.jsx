@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-// import {browserHistory} from 'react-router';
-
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './Header';
-import AddTask from './AddTask';
-import SelectCollection from './SelectCollection';
 import DB from './DataBase';
 import './App.css';
-import TasksList from './TasksList';
+import CollectionsTasks from './CollectionsTasks';
 
 const DivApp = styled.div`
   margin: 0 auto;
@@ -40,9 +36,23 @@ class App extends Component {
     // bind functions
     this.changeTaskEdit = this.changeTaskEdit.bind(this);
     this.viewCollection = this.viewCollection.bind(this);
+    this.taskdone = this.taskdone.bind(this);
+    this.handleText = this.handleText.bind(this);
+    this.newCollection = this.newCollection.bind(this);
+    this.addCollection = this.addCollection.bind(this);
+    this.countDone = this.countDone.bind(this);
+    this.taskCounter = this.taskCounter.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.deletetask = this.deletetask.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.cancelEditTask = this.cancelEditTask.bind(this);
+    this.saveEditTask = this.saveEditTask.bind(this);
+    this.hideDone = this.hideDone.bind(this);
   }
 
   componentDidMount() {
+    console.log('hide here ***');
+    console.log(this.state.hide);
     DB.fetchTasks().then((response) => {
       console.log("I'm Here***********");
       console.log(response.data);
@@ -60,13 +70,16 @@ class App extends Component {
         {
           text: 'ALL',
           value: 0,
+          to: './',
+          as: Link,
         },
       ];
       response.data.forEach((item) => {
         const collec = {
           text: item.name,
           value: item.id,
-          to: item.name,
+          to: `./${item.id}`,
+          as: Link,
         };
         items.push(collec);
       });
@@ -102,6 +115,9 @@ class App extends Component {
       collection: data.value,
       header: `My ${collectionName} TODO List`,
     });
+    // Router.push({
+    //   pathname: data.value,
+    // });
 
     // browserHistory.push({
     //    pathname: collectionName
@@ -129,7 +145,8 @@ class App extends Component {
         const collec = {
           text: this.state.collection_input,
           value: response.data.id,
-          to: this.state.collection_input,
+          // to: `./${response.data.id}`,
+          // as: Link,
         };
         this.state.Collection_List.push(collec);
 
@@ -224,6 +241,8 @@ class App extends Component {
   }
 
   hideDone() {
+    console.log('hide : ');
+    console.log(this.state.hide);
     const h = !this.state.hide;
     this.setState({
       hide: h,
@@ -282,42 +301,34 @@ class App extends Component {
           <DivHeader>
             <Header
               value={this.state.header}
-              onClick={() => this.hideDone()}
+              onClick={this.hideDone}
               hide={this.state.hide}
               done_counter={doneCounter}
               counter={counter}
               undone_counter={counter - doneCounter}
 
-              newCollection={(event, data) => this.newCollection(event, data)}
-              addCollection={() => this.addCollection()}
+              newCollection={this.newCollection}
+              addCollection={this.addCollection}
               collectionText={this.state.collection_input}
             />
           </DivHeader>
-          <SelectCollection
-            collectionList={this.state.Collection_List}
-            viewCollection={this.viewCollection}
-          />
-
-          <Route
-            path="/:collectionId"
-            render={routeProps => (
-              <TasksList
-                {...routeProps}
-                todoList={this.state.TODO_List}
-                Collection_List={this.state.Collection_List}
-                editTaskId={this.state.editTaskId}
-                editInput={this.state.editInput}
-                hide={this.state.hide}
-                collection={this.state.collection}
-              />
-            )}
-          />
-
-          <AddTask
+          <CollectionsTasks
+            Collection_List={this.state.Collection_List}
+            TODO_List={this.state.TODO_List}
+            editTaskId={this.state.editTaskId}
+            editInput={this.state.editInput}
+            hide={this.state.hide}
             collection={this.state.collection}
-            onClick={() => this.handleClick()}
-            value={this.state.text}
-            onChange={this.handleText}
+            text={this.state.text}
+            viewCollection={this.viewCollection}
+            taskdone={this.taskdone}
+            saveEditTask={this.saveEditTask}
+            cancelEditTask={this.cancelEditTask}
+            changeTaskEdit={this.changeTaskEdit}
+            deletetask={this.deletetask}
+            handleEdit={this.handleEdit}
+            handleClick={this.handleClick}
+            handleText={this.handleText}
           />
         </DivApp>
       </Router>
