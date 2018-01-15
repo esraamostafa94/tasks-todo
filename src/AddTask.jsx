@@ -2,9 +2,9 @@ import React from 'react';
 import { Input, Button } from 'semantic-ui-react';
 
 const AddTask = (props) => {
-  let disabled = '';
+  let disabled = false;
   if (props.collection === 0) {
-    disabled = 'disabled';
+    disabled = true;
   }
   return (
     <Input
