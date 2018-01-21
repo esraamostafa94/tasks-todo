@@ -9,7 +9,7 @@ const AddTask = (props) => {
   return (
     <Input
       fluid
-      action={<Button onClick={props.onClick} disabled={disabled} > Add Task </Button>}
+      action={<Button onClick={props.onClick} disabled={disabled} >Add Task</Button>}
       placeholder="Add New Task..."
       value={props.value}
       onChange={props.onChange}
