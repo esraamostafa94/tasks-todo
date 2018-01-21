@@ -1,0 +1,223 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Open PC",
+      "completed": true,
+      "collection": 1,
+      "userId": 8
+    },
+    {
+      "id": 2,
+      "title": "Open Atom",
+      "completed": true,
+      "collection": 1,
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "title": "Have fun",
+      "completed": false,
+      "collection": 2,
+      "userId": 3
+    },
+    {
+      "title": "Sleep",
+      "completed": false,
+      "collection": 2,
+      "id": 6,
+      "userId": 2
+    },
+    {
+      "title": "watch movie",
+      "completed": false,
+      "collection": 2,
+      "id": 7,
+      "userId": 3
+    },
+    {
+      "title": "fffvgvfg",
+      "completed": false,
+      "collection": 1,
+      "id": 8,
+      "userId": 3
+    },
+    {
+      "title": "jkhjkcdx",
+      "completed": true,
+      "collection": 3,
+      "id": 9,
+      "userId": 4
+    },
+    {
+      "title": "esfkk",
+      "completed": false,
+      "collection": 8,
+      "id": 10,
+      "userId": 4
+    },
+    {
+      "title": "cedesr",
+      "completed": false,
+      "collection": 1,
+      "id": 11
+    },
+    {
+      "title": "sdfffdf",
+      "completed": false,
+      "collection": 2,
+      "id": 12,
+      "userId": null
+    },
+    {
+      "title": "kllkll;ll;",
+      "completed": false,
+      "collection": 1,
+      "id": 13
+    },
+    {
+      "title": "jkuk",
+      "completed": false,
+      "collection": 1,
+      "id": 14
+    },
+    {
+      "title": "tgtgf",
+      "completed": false,
+      "collection": 2,
+      "id": 15
+    },
+    {
+      "title": "m,jkj",
+      "completed": false,
+      "collection": 1,
+      "id": 16,
+      "userId": null
+    },
+    {
+      "title": "gjhklhh",
+      "completed": false,
+      "collection": 5,
+      "id": 17,
+      "userId": 8
+    }
+  ],
+  "collections": [
+    {
+      "id": 1,
+      "name": "work"
+    },
+    {
+      "id": 2,
+      "name": "personal"
+    },
+    {
+      "name": "Life Goals",
+      "id": 3
+    },
+    {
+      "name": "Books",
+      "id": 4
+    },
+    {
+      "name": "Ideas",
+      "id": 5
+    },
+    {
+      "name": "xerd",
+      "id": 6
+    },
+    {
+      "name": "efv",
+      "id": 7
+    },
+    {
+      "name": "fyjhi",
+      "id": 8
+    },
+    {
+      "name": "sdsdssd",
+      "id": 9
+    },
+    {
+      "name": "fvvbb",
+      "id": 10
+    },
+    {
+      "name": "hhy",
+      "id": 11
+    },
+    {
+      "name": "gfjh",
+      "id": 12
+    },
+    {
+      "name": "dsxddf",
+      "id": 13
+    },
+    {
+      "name": "dsdfdfd",
+      "id": 14
+    },
+    {
+      "name": "ert",
+      "id": 15
+    },
+    {
+      "name": "bfgnjfgr",
+      "id": 16
+    }
+  ],
+  "users": [
+    {
+      "name": "Esraa",
+      "color": "teal",
+      "id": 1
+    },
+    {
+      "name": "Eman",
+      "color": "green",
+      "id": 2
+    },
+    {
+      "name": "fff",
+      "color": "red",
+      "id": 3
+    },
+    {
+      "name": "dsgfhg",
+      "color": "orange",
+      "id": 4
+    },
+    {
+      "name": "vfccg",
+      "color": "teal",
+      "id": 5
+    },
+    {
+      "name": "ffhkui",
+      "color": "orange",
+      "id": 6
+    },
+    {
+      "name": "ddggb",
+      "color": "teal",
+      "id": 7
+    },
+    {
+      "name": "aqfhr",
+      "color": "pink",
+      "id": 8
+    },
+    {
+      "name": "gjhgu",
+      "color": "teal",
+      "id": 9
+    },
+    {
+      "name": "gvghhhg",
+      "color": "teal",
+      "id": 10
+    }
+  ]
+}
