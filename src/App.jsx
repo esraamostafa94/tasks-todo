@@ -56,6 +56,8 @@ class App extends Component {
     this.chooseUserColor = this.chooseUserColor.bind(this);
     this.addNewUser = this.addNewUser.bind(this);
     this.deleteUserTask = this.deleteUserTask.bind(this);
+    this.stayUserListOpen = this.stayUserListOpen.bind(this);
+    this.onBlurUserList = this.onBlurUserList.bind(this);
   }
 
   componentDidMount() {
@@ -82,10 +84,11 @@ class App extends Component {
         });
 
         tasksList.forEach((task, index) => {
+          const tsk = task;
+          tsk.openUserList = false;
           if (task.userId) {
             res.data.forEach((usr) => {
               if (task.userId === usr.id) {
-                const tsk = task;
                 tsk.userName = usr.name;
                 tsk.userColor = usr.color;
                 tasksList[index] = tsk;
@@ -137,6 +140,13 @@ class App extends Component {
     });
   }
 
+  onBlurUserList(taskIndex) {
+    console.log('"On Blur"');
+    this.state.TODO_List[taskIndex].openUserList = false;
+    this.setState({
+      TODO_List: this.state.TODO_List,
+    });
+  }
   // New task
   handleText(event) {
     console.log(event.target.value);
@@ -229,6 +239,7 @@ class App extends Component {
           title: this.state.text,
           completed: false,
           collection: this.state.collection,
+          openUserList: false,
         };
         this.state.TODO_List.push(nItem);
 
@@ -317,7 +328,7 @@ class App extends Component {
     });
   }
 
-  addUserTask(event, data, taskId) {
+  addUserTask(event, data, taskId, taskIndex) {
     console.log('add User to Task');
     // console.log(event.target.innerText);
     console.log(data.text);
@@ -327,14 +338,18 @@ class App extends Component {
     todoList.forEach((task, index) => {
       if (task.id === taskId) {
         const tsk = task;
+        tsk.openUserList = false;
+        console.log('open User List', tsk.openUserList);
         tsk.userId = data.value;
         tsk.userName = data.text;
         tsk.userColor = data.label.color;
-        console.log(tsk);
+        console.log('task after edit ', tsk);
         todoList[index] = tsk;
       }
     });
-    console.log(todoList);
+    console.log('task index ', taskIndex);
+    todoList[taskIndex].openUserList = false;
+    console.log('After edit user task', todoList);
 
     this.setState({
       TODO_List: todoList,
@@ -358,7 +373,9 @@ class App extends Component {
     });
   }
 
-  addNewUser() {
+  // TODO when add new user U should add this task to hem
+  addNewUser(index) {
+    console.log('Add New User function');
     if (this.state.enteredNewUser) {
       // save in db
       DB.AddNewUser(this.state.enteredNewUser, this.state.enteredColor).then((response) => {
@@ -370,10 +387,12 @@ class App extends Component {
           // to: `/u/${response.id}`,
           // as: Link,
         });
+        this.state.TODO_List[index].openUserList = false;
 
         this.setState({
           enteredNewUser: '',
           users: usrs,
+          TODO_List: this.state.TODO_List,
         });
       });
     }
@@ -394,6 +413,12 @@ class App extends Component {
     });
   }
 
+  stayUserListOpen(taskIndex) {
+    this.state.TODO_List[taskIndex].openUserList = !this.state.TODO_List[taskIndex].openUserList;
+    this.setState({
+      TODO_List: this.state.TODO_List,
+    });
+  }
 
   render() {
     const counter = this.taskCounter();
@@ -444,6 +469,9 @@ class App extends Component {
             writeNewUser={this.writeNewUser}
             chooseUserColor={this.chooseUserColor}
             addNewUser={this.addNewUser}
+
+            stayUserListOpen={this.stayUserListOpen}
+            onBlurUserList={this.onBlurUserList}
           />
         </DivApp>
       </Router>

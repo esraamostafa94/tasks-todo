@@ -1,8 +1,13 @@
 import React from 'react';
-import { List, Dropdown, Label, Input, Select, Button } from 'semantic-ui-react';
+import { List, Dropdown, Label, Input, Select, Button, Icon } from 'semantic-ui-react';
 import EditTask from './EditTask';
 import Task from './Task';
 
+// let open = false;
+// const stayOpen = () => {
+//   open = true;
+//   console.log('"click on user list"');
+// };
 
 const TasksList = (props) => {
   const colors = ['teal', 'red', 'orange', 'yellow', 'olive', 'green',
@@ -16,6 +21,7 @@ const TasksList = (props) => {
     });
   });
   const list = props.todoList.map((item, index) => {
+    console.log('item.openUserList', item.openUserList);
     let colName = '';
     if (props.Collection_List[item.collection]) {
       // console.log('Colection name');
@@ -55,10 +61,13 @@ const TasksList = (props) => {
 
         usersList={(
           <Dropdown
-            icon="add user"
-            floating
             button
             className="icon"
+            trigger={(
+              <Icon name="add user" onClick={() => props.stayUserListOpen(index)} />
+            )}
+            open={item.openUserList}
+            onBlur={() => props.onBlurUserList(index)}
           >
             <Dropdown.Menu>
               <Input
@@ -74,14 +83,14 @@ const TasksList = (props) => {
                   onChange={props.chooseUserColor}
                 />
                 <input />
-                <Button type="submit" onClick={props.addNewUser}>Add User</Button>
+                <Button type="submit" onClick={() => props.addNewUser(index)}>Add User</Button>
               </Input>
               <Dropdown.Divider />
               <Dropdown.Header content=" Choose The User " />
               <Dropdown.Menu scrolling>
                 {props.users.map(option => (
                   <Dropdown.Item
-                    onClick={(event, data) => props.addUserTask(event, data, item.id)}
+                    onClick={(event, data) => props.addUserTask(event, data, item.id, index)}
                     key={option.value}
                     {...option}
                   />

@@ -3,11 +3,11 @@ import { List, Button, Icon, Label, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-let P = styled.p``;
+// let P = styled.p``;
 
 // Task item
 const Task = (props) => {
-  // let P = styled.p``;
+  let P = styled.p``;
   if (props.value.completed) {
     P = styled.p`
       text-decoration: line-through;

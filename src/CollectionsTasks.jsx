@@ -38,6 +38,9 @@ const CollectionsTasks = props =>
             chooseUserColor={props.chooseUserColor}
             addNewUser={props.addNewUser}
 
+            stayUserListOpen={props.stayUserListOpen}
+            onBlurUserList={props.onBlurUserList}
+
           />
         )}
       />
