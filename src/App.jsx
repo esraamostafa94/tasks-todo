@@ -31,6 +31,9 @@ class App extends Component {
       collection_input: '',
       editTaskId: -1,
       editInput: '',
+      users: [],
+      enteredNewUser: '',
+      enteredColor: 'teal',
     };
 
     // bind functions
@@ -48,29 +51,69 @@ class App extends Component {
     this.cancelEditTask = this.cancelEditTask.bind(this);
     this.saveEditTask = this.saveEditTask.bind(this);
     this.hideDone = this.hideDone.bind(this);
+    this.addUserTask = this.addUserTask.bind(this);
+    this.writeNewUser = this.writeNewUser.bind(this);
+    this.chooseUserColor = this.chooseUserColor.bind(this);
+    this.addNewUser = this.addNewUser.bind(this);
+    this.deleteUserTask = this.deleteUserTask.bind(this);
   }
 
   componentDidMount() {
     console.log('hide here ***');
     console.log(this.state.hide);
     DB.fetchTasks().then((response) => {
-      console.log("I'm Here***********");
+      console.log('"Fetch Tasks"');
       console.log(response.data);
-      this.setState({
-        TODO_List: response.data,
+      const tasksList = response.data;
+
+      DB.fetchUsers().then((res) => {
+        console.log('Fetch Users');
+        console.log(res.data);
+
+        const usersList = [];
+        res.data.forEach((usr) => {
+          usersList.push({
+            text: usr.name,
+            value: usr.id,
+            label: { color: usr.color, empty: true, circular: true },
+            // to: `/u/${usr.id}`,
+            // as: Link,
+          });
+        });
+
+        tasksList.forEach((task, index) => {
+          if (task.userId) {
+            res.data.forEach((usr) => {
+              if (task.userId === usr.id) {
+                const tsk = task;
+                tsk.userName = usr.name;
+                tsk.userColor = usr.color;
+                tasksList[index] = tsk;
+                // break;
+              }
+            });
+          }
+        });
+        console.log('Tasks after push users ');
+        console.log(tasksList);
+        console.log(usersList);
+        this.setState({
+          users: usersList,
+          TODO_List: tasksList,
+        });
       });
     });
 
     // TODO fetch Collections
     DB.fetchCollections().then((response) => {
-      console.log("I'm Here***********");
+      console.log('"Fetch Collection"');
       console.log(response.data);
 
       const items = [
         {
           text: 'ALL',
           value: 0,
-          to: './',
+          to: '/',
           as: Link,
         },
       ];
@@ -78,7 +121,7 @@ class App extends Component {
         const collec = {
           text: item.name,
           value: item.id,
-          to: `./${item.id}`,
+          to: `/c/${item.id}`,
           as: Link,
         };
         items.push(collec);
@@ -110,18 +153,10 @@ class App extends Component {
     // console.log("event.target.innerText");
     const collectionName = data.options[data.value].text;
 
-    console.log(event.target.value);
     this.setState({
       collection: data.value,
       header: `My ${collectionName} TODO List`,
     });
-    // Router.push({
-    //   pathname: data.value,
-    // });
-
-    // browserHistory.push({
-    //    pathname: collectionName
-    // });
   }
 
   newCollection(event) {
@@ -145,8 +180,8 @@ class App extends Component {
         const collec = {
           text: this.state.collection_input,
           value: response.data.id,
-          // to: `./${response.data.id}`,
-          // as: Link,
+          to: `/c/${response.data.id}`,
+          as: Link,
         };
         this.state.Collection_List.push(collec);
 
@@ -248,12 +283,6 @@ class App extends Component {
       hide: h,
     });
   }
-  // done_task = (event) => {
-  //   console.log(event.target.value);
-  //   this.setState({
-  //     text: event.target.value,
-  //  });
-  // }
 
   changeTaskEdit(event) {
     console.log('"Edit Task input"');
@@ -288,7 +317,84 @@ class App extends Component {
     });
   }
 
-  // onChange={(event) => this.done_task(event,itm.task)}
+  addUserTask(event, data, taskId) {
+    console.log('add User to Task');
+    // console.log(event.target.innerText);
+    console.log(data.text);
+    console.log(data.label.color);
+    DB.updateUserTask(data.value, taskId);
+    const todoList = this.state.TODO_List;
+    todoList.forEach((task, index) => {
+      if (task.id === taskId) {
+        const tsk = task;
+        tsk.userId = data.value;
+        tsk.userName = data.text;
+        tsk.userColor = data.label.color;
+        console.log(tsk);
+        todoList[index] = tsk;
+      }
+    });
+    console.log(todoList);
+
+    this.setState({
+      TODO_List: todoList,
+    });
+  }
+
+  writeNewUser(event) {
+    console.log('Enter New User name');
+    console.log(event.target.value);
+    this.setState({
+      enteredNewUser: event.target.value,
+    });
+  }
+
+  chooseUserColor(event, data) {
+    console.log('Enter New User color');
+    console.log(data.value);
+
+    this.setState({
+      enteredColor: data.value,
+    });
+  }
+
+  addNewUser() {
+    if (this.state.enteredNewUser) {
+      // save in db
+      DB.AddNewUser(this.state.enteredNewUser, this.state.enteredColor).then((response) => {
+        const usrs = this.state.users;
+        usrs.push({
+          text: this.state.enteredNewUser,
+          value: response.id,
+          label: { color: this.state.enteredColor, empty: true, circular: true },
+          // to: `/u/${response.id}`,
+          // as: Link,
+        });
+
+        this.setState({
+          enteredNewUser: '',
+          users: usrs,
+        });
+      });
+    }
+  }
+
+  deleteUserTask(taskId, taskIndex) {
+    console.log('on delete task user function');
+    console.log(taskId);
+    console.log(taskIndex);
+    DB.deleteUserTask(taskId);
+    const tasks = this.state.TODO_List;
+    tasks[taskIndex].userId = null;
+    tasks[taskIndex].userName = null;
+    tasks[taskIndex].userColor = null;
+
+    this.setState({
+      TODO_List: tasks,
+    });
+  }
+
+
   render() {
     const counter = this.taskCounter();
     const doneCounter = this.countDone();
@@ -310,6 +416,7 @@ class App extends Component {
               newCollection={this.newCollection}
               addCollection={this.addCollection}
               collectionText={this.state.collection_input}
+
             />
           </DivHeader>
           <CollectionsTasks
@@ -329,6 +436,14 @@ class App extends Component {
             handleEdit={this.handleEdit}
             handleClick={this.handleClick}
             handleText={this.handleText}
+
+            users={this.state.users}
+            addUserTask={this.addUserTask}
+            deleteUserTask={this.deleteUserTask}
+
+            writeNewUser={this.writeNewUser}
+            chooseUserColor={this.chooseUserColor}
+            addNewUser={this.addNewUser}
           />
         </DivApp>
       </Router>

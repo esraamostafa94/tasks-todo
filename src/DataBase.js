@@ -76,6 +76,65 @@ class DataBase {
         console.log(error);
       });
   }
+
+  // insert new user in DB
+  static AddNewUser(userName, colour) {
+    return axios.post(
+      'http://localhost:3001/users',
+      {
+        name: userName,
+        color: colour,
+      },
+    );
+  }
+
+  static fetchUsers() {
+    return axios.get('http://localhost:3001/users');
+  }
+
+  static addUser(username, colour) {
+    return axios.post(
+      'http://localhost:3001/users',
+      {
+        name: username,
+        color: colour,
+      },
+    );
+  }
+
+  static updateUserTask(userid, taskId) {
+    const url = `http://localhost:3001/tasks/${String(taskId)}`;
+    axios.patch(
+      url,
+      {
+        userId: userid,
+      },
+    )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  static deleteUserTask(taskId) {
+    console.log('"task id"');
+    console.log(taskId);
+    const url = `http://localhost:3001/tasks/${String(taskId)}`;
+    axios.patch(
+      url,
+      {
+        userId: null,
+      },
+    )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 }
 
 export default DataBase;
